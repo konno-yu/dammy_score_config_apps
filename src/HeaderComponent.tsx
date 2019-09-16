@@ -7,14 +7,12 @@ import {
 
 const HeaderComponent: React.FC = () => {
     const { Header } = Layout;
-    return (
-    <Layout>
-        <Header style={{ background: "#FFF" }}>
+    return (    
+        <Header style={{ background: "#FFF", paddingLeft: 20 }}>
             <Row style={{ textAlign: "left", fontSize: 20 }}>
                 <Icon type="bar-chart" /> Dammy Student Generator
             </Row>
         </Header>
-    </Layout>
     )
 };
 
