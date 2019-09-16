@@ -1,0 +1,6 @@
+DROP TABLE IF EXISTS students;
+CREATE TABLE students (
+  id SERIAL NOT NULL,
+  name VARCHAR(20) NOT NULL,
+  PRIMARY KEY (id)
+);

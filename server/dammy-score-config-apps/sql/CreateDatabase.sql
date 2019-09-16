@@ -1,0 +1,1 @@
+create database dammy_score_config_apps;
