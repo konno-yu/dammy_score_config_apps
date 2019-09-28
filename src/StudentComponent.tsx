@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
     Form, 
     Input,
@@ -7,25 +7,49 @@ import {
 } from "antd";
 import { FormComponentProps } from "antd/lib/form";
 import axios from "axios";
+axios.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
 
-type LoginFormProps = FormComponentProps;
 
-const LoginFormImpl: React.FC<LoginFormProps> = (props: LoginFormProps) => {
+type StudentType = {
+    id: number,
+    name: string
+};
+type StudentFormProps<StudentType> = FormComponentProps;
+
+
+const LoginFormImpl: React.FC<StudentFormProps<StudentType>> = (props: StudentFormProps<StudentType>) => {
     const { form } = props;
     const { getFieldDecorator } = form;
     const [message, setMessage] = useState("");
+    const [students, setStudents] = useState<StudentType[]>();
+
+    useEffect(() => {
+       loadStudents();
+    }, []);
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        alert(`送信しますよ:${message}`);
-            try {
-                // アドレスが入る
-                const result = await axios.get("localhost:8080/api/students");
-                console.log(result);
-            } catch(err) {
-                console.log("error");
-            }
+        registerStudent(message);
     };
+
+    const registerStudent = async (name: string) => {
+        try {
+            const result = await axios({
+                method: "POST",
+                url: "http://localhost:8080/api/students",
+                data: {id: -1, name: name}
+            });
+            console.log(result);
+            loadStudents()
+        } catch(err) {
+            console.log("error");
+        }
+    }
+
+    const loadStudents = async () => {
+        await axios.get("http://localhost:8080/api/students").then((res) => setStudents(res.data));
+        // setStzudents(students);
+    }
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setMessage(event.target.value);
@@ -44,9 +68,11 @@ const LoginFormImpl: React.FC<LoginFormProps> = (props: LoginFormProps) => {
                 <Button type="primary" htmlType="submit">Log in</Button>
             </Form.Item>
         </Form>
-        <p>入力されたのは{message}でした。</p>
+        { 
+            students && students.map((s) => <p>{s.name}</p>)
+        }
         </div>
     );
 }
 
-export default Form.create<LoginFormProps>()(LoginFormImpl);
+export default Form.create<StudentFormProps<StudentType>>()(LoginFormImpl);
