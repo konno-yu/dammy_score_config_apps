@@ -10,6 +10,8 @@
 
 # production
 /build
+/⁩server/⁩dammy-score-config-apps⁩/⁨src⁩/⁨main/resources/static⁩
+
 
 # misc
 .DS_Store
