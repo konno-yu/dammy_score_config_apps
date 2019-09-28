@@ -7,6 +7,7 @@ import panda.dammyscoreconfigapps.domain.Student
 
 
 @RestController
+@CrossOrigin
 @RequestMapping("/api")
 class StudentResource() {
 
