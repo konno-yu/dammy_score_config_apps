@@ -8,7 +8,7 @@ import panda.dammyscoreconfigapps.domain.Student
 @Repository
 interface StudentRepository {
 
-  @Select("SELECT * FROM students;")
+    @Select("SELECT * FROM students;")
     fun selectStudents(): List<Student>
 
     @Select("SELECT * FROM students WHERE id = #{id}")
